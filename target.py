@@ -19,7 +19,7 @@ server_conf = 'localhost', 1024
 sock.connect(server_conf)
 
 # 5 - send first message
-connected = "Connected"
+connected = b"Connected"
 sock.send(connected)
 
 # 6 - recv message from server
