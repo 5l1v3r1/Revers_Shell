@@ -1,2 +1,10 @@
 # Revers_Shell
-### Actual on Working on V1.4
+### What Do
+
+- Working on v1.4
+- use v1.2 for test
+
+### News Features
+
+
+### Issue
